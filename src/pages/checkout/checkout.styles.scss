@@ -12,11 +12,12 @@
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid darkgrey;
+      font-size: 20px;
   
       .header-block {
         text-transform: capitalize;
         width: 23%;
-  
+
         &:last-child {
           width: 8%;
         }
@@ -28,7 +29,7 @@
       margin-left: auto;
       font-size: 36px;
     }
-    
+
     button{
       margin-left: auto;
       margin-top: 50px;
