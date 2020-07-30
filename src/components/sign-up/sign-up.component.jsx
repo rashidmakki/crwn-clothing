@@ -63,6 +63,7 @@ const handleSubmit = async event => {
             value={password}
             onChange={handleChange}
             label='Password'
+            autocomplete='new-password'
             required
           />
           <FormInput
@@ -71,6 +72,7 @@ const handleSubmit = async event => {
             value={confirmPassword}
             onChange={handleChange}
             label='Confirm Password'
+            autocomplete='new-password'
             required
           />
           <CustomButton type='submit'>SIGN UP</CustomButton>

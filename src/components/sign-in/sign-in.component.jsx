@@ -46,6 +46,7 @@ const SignIn =({ emailSignInStart,googleSignInStart })=> {
             handleChange={handleChange}
             value={email}
             label='email'
+            autocomplete='username'
             required
           />
           <FormInput
@@ -54,6 +55,7 @@ const SignIn =({ emailSignInStart,googleSignInStart })=> {
             value={password}
             handleChange={handleChange}
             label='password'
+            autocomplete='current-password'
             required
           />
           <ButtonsBarContainer>
