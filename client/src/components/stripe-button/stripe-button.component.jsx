@@ -6,7 +6,7 @@ import { useToast } from "@chakra-ui/core";
 const StripeCheckoutButton = ({ price }) => {
   const toast = useToast();
   const priceForStripe = price * 100;
-  const publishableKey = "pk_test_51H2a4YBFNahoJiBBTQDQ3guYdvsLv74Nyxj0BWDvMc24EG2MDnHfJJjMRG3TWpWcd7dPiatNP1qwq8jL0ig0e9mo00HZg33sxx";
+  const publishableKey ="pk_test_51H2a4YBFNahoJiBBTQDQ3guYdvsLv74Nyxj0BWDvMc24EG2MDnHfJJjMRG3TWpWcd7dPiatNP1qwq8jL0ig0e9mo00HZg33sxx";
 
   const onToken = (token) => {
     axios({
@@ -16,9 +16,10 @@ const StripeCheckoutButton = ({ price }) => {
         amount: priceForStripe,
         token,
       },
-    }).then((response) => {
+    })
+      .then(response=> {
         toast({
-          position:'top',
+          position: "top",
           title: "Payment Successful",
           description: "Your payment was successful.",
           status: "success",
@@ -27,9 +28,9 @@ const StripeCheckoutButton = ({ price }) => {
         });
       })
       .catch((error) => {
-        console.log("Payment Error", error.toString());
+        console.log("Payment", error);
         toast({
-          position:'top',
+          position: "top",
           title: "An error occurred.",
           description:"There was an issue with your payment. Please make sure you use the provided credit card.",
           status: "error",
