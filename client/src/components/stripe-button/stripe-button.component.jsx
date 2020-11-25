@@ -1,6 +1,5 @@
 import React from "react";
 import StripeCheckout from "react-stripe-checkout";
-import axios from "axios";
 import { useToast } from "@chakra-ui/core";
 
 const StripeCheckoutButton = ({ price }) => {
@@ -9,35 +8,40 @@ const StripeCheckoutButton = ({ price }) => {
   const publishableKey ="pk_test_51H2a4YBFNahoJiBBTQDQ3guYdvsLv74Nyxj0BWDvMc24EG2MDnHfJJjMRG3TWpWcd7dPiatNP1qwq8jL0ig0e9mo00HZg33sxx";
 
   const onToken = (token) => {
-    axios({
-      url: "payment",
-      method: "post",
-      data: {
+     const body={
         amount: priceForStripe,
-        token,
-      },
+        token
+     }
+      return fetch(`http://localhost:5000/payment`,{
+       method:'POST',
+       headers:{
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+                },
+       body:JSON.stringify(body)
     })
-      .then(response=> {
-        toast({
-          position: "top",
-          title: "Payment Successful",
-          description: "Your payment was successful.",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-      })
-      .catch((error) => {
-        console.log("Payment", error);
-        toast({
-          position: "top",
-          title: "An error occurred.",
-          description:"There was an issue with your payment. Please make sure you use the provided credit card.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
+    .then(response=> {
+      response.json();
+      toast({
+        position: "top",
+        title: "Payment Successful",
+        description: "Your payment was successful.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
       });
+    })
+    .catch((error) => {
+      console.log("Payment", error);
+      toast({
+        position: "top",
+        title: "An error occurred.",
+        description:"There was an issue with your payment. Please make sure you use the provided credit card.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    });
   };
 
   return (

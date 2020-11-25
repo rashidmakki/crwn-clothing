@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-
 import { store, persistor } from "./redux/store";
 import { ThemeProvider } from "@chakra-ui/core";
 import { theme } from "@chakra-ui/core";
@@ -23,3 +22,42 @@ ReactDOM.render(
   </ThemeProvider>,
   document.getElementById("root")
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                           

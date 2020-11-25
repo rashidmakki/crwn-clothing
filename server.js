@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
@@ -29,17 +30,26 @@ app.listen(port, error => {
 });
 
 app.post('/payment', (req, res) => {
-  const body = {
-    source: req.body.token.id,
-    amount: req.body.amount,
-    currency: 'usd'
-  };
+   const {token}=req.body;
+   const idempotentencyKey=uuidv4();
 
-  stripe.charges.create(body, (stripeErr, stripeRes) => {
-    if (stripeErr) {
-      res.status(500).send({ error: stripeErr });
-    } else {
-      res.status(200).send({ success: stripeRes });
-    }
-  });
+   return stripe.customers.create({
+     source: token.id,
+     email:token.email
+   } ).then(customer=>{
+      stripe.charges.create({
+         amount:amount,
+         currency:'usd',
+         customer:customer.id,
+         receipt_email:token.email,
+         shipping:{
+          name:token.card.name,
+          address:{
+            country:token.card.address_country
+           }
+         }
+      },{idempotentencyKey})
+   })
+   .then(result=>res.status(200).json(JSON.parse(result)))
+   .catch(err=>res.status(500).send(err));
 });
