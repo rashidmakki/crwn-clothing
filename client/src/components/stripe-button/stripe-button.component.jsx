@@ -12,7 +12,7 @@ const StripeCheckoutButton = ({ price }) => {
         amount: priceForStripe,
         token
      }
-      return fetch(`http://localhost:5000/payment`,{
+      return fetch(`https://apparel-live.herokuapp.com/payment`,{
        method:'POST',
        headers:{
                 'Content-Type':'application/json',
