@@ -30,7 +30,7 @@ app.listen(port, error => {
 });
 
 app.post('/payment', (req, res) => {
-   const {token,amount}=JSON.parse(req.body);
+   const {token,amount}=req.body;
    const idempotentencyKey=uuidv4();
 
    return stripe.customers.create({
