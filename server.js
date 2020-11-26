@@ -30,14 +30,14 @@ app.listen(port, error => {
 });
 
 app.post('/payment', (req, res) => {
-   const {token}=req.body;
+   const {token,amount}=req.body;
    const idempotentencyKey=uuidv4();
 
    return stripe.customers.create({
      source: token.id,
      email:token.email
    } ).then(customer=>{
-      stripe.charges.create({
+      return stripe.charges.create({
          amount:amount,
          currency:'usd',
          customer:customer.id,
