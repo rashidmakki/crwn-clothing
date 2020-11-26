@@ -30,7 +30,7 @@ app.listen(port, error => {
 });
 
 app.post('/payment', (req, res) => {
-   const {token,amount}=req.body;
+   const {token,amount}=JSON.parse(req.body);
    const idempotentencyKey=uuidv4();
 
    return stripe.customers.create({
@@ -45,7 +45,11 @@ app.post('/payment', (req, res) => {
          shipping:{
           name:token.card.name,
           address:{
-            country:token.card.address_country
+            country:token.card.address_country,
+            line1:token.card.address_line1,
+            line2:token.card.address_line2,
+            city:token.card.address_city,
+            postal_code:token.card.address_zip
            }
          }
       },{idempotentencyKey})
