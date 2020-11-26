@@ -31,6 +31,7 @@ app.listen(port, error => {
 
 app.post('/payment', (req, res) => {
    const {token,amount}=req.body;
+   console.log('Token :',token,amount);
    const idempotentencyKey=uuidv4();
 
    return stripe.customers.create({
@@ -38,7 +39,7 @@ app.post('/payment', (req, res) => {
      email:token.email
    } ).then(customer=>{
       return stripe.charges.create({
-         amount:amount,
+         amount:amount*100,
          currency:'usd',
          customer:customer.id,
          receipt_email:token.email,
@@ -50,7 +51,8 @@ app.post('/payment', (req, res) => {
             line2:token.card.address_line2,
             city:token.card.address_city,
             postal_code:token.card.address_zip
-           }
+           },
+           status:'succeeded'
          }
       },{idempotentencyKey})
    })
