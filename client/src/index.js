@@ -7,6 +7,7 @@ import { store, persistor } from "./redux/store";
 import { ThemeProvider } from "@chakra-ui/core";
 import { theme } from "@chakra-ui/core";
 
+import * as serviceWorker from './serviceWorker';
 import "./index.css";
 import App from "./App";
 
@@ -23,7 +24,7 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-
+serviceWorker.register();
 
 
 
