@@ -52,7 +52,6 @@ app.post('/checkout', (req, res) => {
           address:{
             country:token.card.address_country,
             line1:token.card.address_line1,
-            line2:token.card.address_line2,
             city:token.card.address_city,
             postal_code:token.card.address_zip
            },
