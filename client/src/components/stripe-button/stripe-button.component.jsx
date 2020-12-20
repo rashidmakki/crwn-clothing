@@ -20,8 +20,10 @@ const StripeCheckoutButton = ({ price }) => {
                 },
        body:JSON.stringify(body)
     })
-    .then(response=> {
-      response.json();
+    .then(response=>response.json())
+    .then(({id,balance_transaction,amount})=>({id,balance_transaction,amount}))
+    .then(data=>{
+      console.log('Payment Successful :',data);
       toast({
         position: "top",
         title: "Payment Successful",

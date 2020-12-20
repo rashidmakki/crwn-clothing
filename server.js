@@ -34,38 +34,15 @@ app.get('/service-worker.js',(req,res)=>{
    res.sendFile(path.resolve(__dirname,'..','build','service-worker.js'));
 })
 
-app.post('/create-checkout-session', async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'T-shirt',
-          },
-          unit_amount: 1603,
-        },
-        quantity: 1,
-      },
-    ],
-    mode: 'payment',
-    success_url: 'https://example.com/success',
-    cancel_url: 'https://example.com/cancel',
-  });
-
-  res.json({ id: session.id });
-});
 app.post('/payment', (req, res) => {
    const {token,amount}=req.body;
-   console.log('Token :',token,amount);
    const idempotentencyKey=uuidv4();
-
+    console.log('Token :',token,amount);
    return stripe.customers.create({
-     source: token.id,
+     source: token.tokenId,
      email:token.email
    } ).then(customer=>{
-      return stripe.charges.create({
+      const charge=stripe.charges.create({
          amount:amount*100,
          currency:'usd',
          customer:customer.id,
@@ -79,10 +56,10 @@ app.post('/payment', (req, res) => {
             city:token.card.address_city,
             postal_code:token.card.address_zip
            },
-           status:'succeeded'
          }
-      },{idempotentencyKey})
+      })
+      return charge;
    })
-   .then(result=>res.status(200).json(JSON.parse(result)))
+   .then(result=>res.status(200).json({...result}))
    .catch(err=>res.status(500).send(err));
 });
