@@ -34,7 +34,7 @@ app.get('/service-worker.js',(req,res)=>{
    res.sendFile(path.resolve(__dirname,'..','build','service-worker.js'));
 })
 
-app.post('/payment', (req, res) => {
+app.post('/checkout', (req, res) => {
    const {token,amount}=req.body;
    const idempotentencyKey=uuidv4();
     console.log('Token :',token,amount);
